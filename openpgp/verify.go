@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"code.google.com/p/go.crypto/openpgp"
+	"golang.org/x/crypto/openpgp"
 )
 
 var keyringPath = "/opt/pm/.keyring"
