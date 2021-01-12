@@ -5,13 +5,13 @@ import (
 	"log"
 	"os"
 
-	"github.com/kelseyhightower/pm/cmd/build"
-	"github.com/kelseyhightower/pm/cmd/get"
-	"github.com/kelseyhightower/pm/cmd/info"
-	"github.com/kelseyhightower/pm/cmd/install"
-	"github.com/kelseyhightower/pm/cmd/list"
-	"github.com/kelseyhightower/pm/cmd/remove"
-	"github.com/kelseyhightower/pm/cmd/verify"
+	"github.com/yahao333/pm/cmd/build"
+	"github.com/yahao333/pm/cmd/get"
+	"github.com/yahao333/pm/cmd/info"
+	"github.com/yahao333/pm/cmd/install"
+	"github.com/yahao333/pm/cmd/list"
+	"github.com/yahao333/pm/cmd/remove"
+	"github.com/yahao333/pm/cmd/verify"
 )
 
 func main() {

@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"code.google.com/p/go.crypto/openpgp"
-	"github.com/kelseyhightower/pm/metadata"
+	"github.com/yahao333/pm/metadata"
 )
 
 var (

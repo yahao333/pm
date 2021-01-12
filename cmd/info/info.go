@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kelseyhightower/pm/metadata"
+	"github.com/yahao333/pm/metadata"
 )
 
 func Run() {

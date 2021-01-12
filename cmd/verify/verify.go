@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kelseyhightower/pm/cmd"
-	"github.com/kelseyhightower/pm/openpgp"
+	"github.com/yahao333/pm/cmd"
+	"github.com/yahao333/pm/openpgp"
 )
 
 func Run() {
