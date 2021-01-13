@@ -6,12 +6,12 @@ import (
 	"os"
 
 	"golang.org/x/crypto/openpgp"
+
+	"github.com/yahao333/pm/config"
 )
 
-var keyringPath = "/opt/pm/.keyring"
-
 func Verify(packagePath string) bool {
-	keyRingFile, err := os.Open(keyringPath)
+	keyRingFile, err := os.Open(config.Conf.KeyPrintPath)
 	if err != nil {
 		log.Println(err)
 		return false

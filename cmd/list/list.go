@@ -4,12 +4,13 @@ import (
 	"log"
 	"path/filepath"
 	"regexp"
+
+	"github.com/yahao333/pm/config"
 )
 
-var pattern = regexp.MustCompile("/opt/(.*)/metadata.json")
-
 func Run() {
-	paths, err := filepath.Glob("/opt/*/metadata.json")
+	pattern := regexp.MustCompile(filepath.Join(config.Conf.BaseDir, "/.pm/(.*)/metadata.json"))
+	paths, err := filepath.Glob(filepath.Join(config.Conf.BaseDir, "/.pm/*/metadata.json"))
 	if err != nil {
 		log.Fatal(err)
 	}

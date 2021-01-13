@@ -9,12 +9,16 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 	"time"
+
+	"github.com/yahao333/pm/config"
 )
 
-var cachePath = "/opt/pm/cache"
+//var cachePath = "/opt/pm/cache"
 
 func DownloadPackage(rawUrl string) (string, error) {
+	cachePath := filepath.Join(config.Conf.BaseDir, "/.pm/cache")
 	u, err := url.Parse(rawUrl)
 	if err != nil {
 		return "", err

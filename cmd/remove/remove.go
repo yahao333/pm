@@ -1,6 +1,7 @@
 package remove
 
 import (
+	"github.com/yahao333/pm/config"
 	"log"
 	"os"
 	"path/filepath"
@@ -8,12 +9,12 @@ import (
 
 func Run() {
 	packageName := os.Args[2]
-	err := os.RemoveAll("/opt/" + packageName)
+	err := os.RemoveAll(filepath.Join(config.Conf.BaseDir, "/.pm/", packageName))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("/opt/" + packageName)
-	files, err := filepath.Glob(filepath.Join("/opt/pm/cache", packageName+"*"))
+	log.Println("~/.pm/" + packageName)
+	files, err := filepath.Glob(filepath.Join(config.Conf.BaseDir, "/.pm/pm/cache", packageName+"*"))
 	if err != nil {
 		log.Fatal(err)
 	}

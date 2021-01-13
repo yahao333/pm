@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/yahao333/pm/metadata"
+
+	"github.com/yahao333/pm/config"
 )
 
 func Run() {
 	packageName := os.Args[2]
-	f, err := os.Open(fmt.Sprintf("/opt/%s/metadata.json", packageName))
+	f, err := os.Open(fmt.Sprintf(filepath.Join(config.Conf.BaseDir, "/.pm/%s/metadata.json"), packageName))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -10,10 +10,11 @@ import (
 	"log"
 	"net/url"
 	"os"
-	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/yahao333/pm/cmd"
+	"github.com/yahao333/pm/config"
 	"github.com/yahao333/pm/metadata"
 	"github.com/yahao333/pm/openpgp"
 )
@@ -64,12 +65,13 @@ func Run() {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			baseDir = fmt.Sprintf("/opt/%s-%s", m.Name, m.Tag)
+			baseDir = filepath.Join(config.Conf.BaseDir, fmt.Sprintf("/.pm/%s-%s", m.Name, m.Tag))
 			err = os.MkdirAll(baseDir, 0755)
 			if err != nil {
+				log.Println(err)
 				log.Fatalln(err)
 			}
-			metadataPath := path.Join(baseDir, "metadata.json")
+			metadataPath := filepath.Join(baseDir, "metadata.json")
 			f, err := os.Create(metadataPath)
 			if err != nil {
 				log.Fatalln(err)
@@ -86,8 +88,8 @@ func Run() {
 			continue
 		}
 		if hdr.Name == m.Name {
-			binDir := path.Join(baseDir, "/bin")
-			binPath := path.Join(binDir, m.Name)
+			binDir := filepath.Join(baseDir, "/bin")
+			binPath := filepath.Join(binDir, m.Name)
 			err := os.MkdirAll(binDir, 0755)
 			if err != nil {
 				log.Fatalln(err)

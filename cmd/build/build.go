@@ -49,6 +49,17 @@ func Run() {
 	}
 }
 
+func createSha256File(filepath, checksum1, checksum2 string) error {
+	checksumFile, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+	defer checksumFile.Close()
+	checksumFile.WriteString(checksum1)
+	checksumFile.WriteString(checksum2)
+	return nil
+}
+
 func createPackage(binaryFilePath string, m *metadata.Metadata) error {
 	// Write the tar.gz file.
 	name, err := createTarGz(binaryFilePath, m)
@@ -60,21 +71,21 @@ func createPackage(binaryFilePath string, m *metadata.Metadata) error {
 		return err
 	}
 	// Write the .sha256 file.
-	checksumFile, err := os.Create(name + ".sha256")
-	if err != nil {
-		return err
-	}
-	defer checksumFile.Close()
 	log.Println(name + ".sha256")
-	checksumContents := fmt.Sprintf("%x  %s\n", sha256.Sum256(data), name)
-	checksumFile.WriteString(checksumContents)
+
+	checksum1 := fmt.Sprintf("%x  %s\n", sha256.Sum256(data), name)
+
 	// write the checksum of the binary file.
 	binaryFileData, err := ioutil.ReadFile(binaryFilePath)
 	if err != nil {
 		return err
 	}
-	checksumContents = fmt.Sprintf("%x  %s\n", sha256.Sum256(binaryFileData), filepath.Base(binaryFilePath))
-	checksumFile.WriteString(checksumContents)
+	checksum2 := fmt.Sprintf("%x  %s\n", sha256.Sum256(binaryFileData), filepath.Base(binaryFilePath))
+
+	err = createSha256File(name+".sha256", checksum1, checksum2)
+	if err != nil {
+		return err
+	}
 
 	// Setup the openpgp keyrign. Right now we only support non-encrypted private
 	// keys.
@@ -103,7 +114,12 @@ func createPackage(binaryFilePath string, m *metadata.Metadata) error {
 		return err
 	}
 	defer detachedSigDigestFile.Close()
-	err = openpgp.ArmoredDetachSign(detachedSigDigestFile, es[0], bytes.NewReader([]byte(checksumContents)), nil)
+
+	sha256Data, err := ioutil.ReadFile(name + ".sha256")
+	if err != nil {
+		return err
+	}
+	err = openpgp.ArmoredDetachSign(detachedSigDigestFile, es[0], bytes.NewReader(sha256Data), nil)
 	if err != nil {
 		return err
 	}
